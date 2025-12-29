@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffe6f0, #fff5e6);
+            color: #5a4a42;
+            overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+        .page {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .page.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #d2691e;
+            animation: fadeIn 1s ease-in-out;
+        }
+        p, .subtext {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        .subtext {
+            font-size: 1rem;
+            color: #8b7d6b;
+        }
+        button {
+            background: linear-gradient(135deg, #ffb6c1, #ffd700);
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Page 1: Landing */
+        #page1 {
+            background: linear-gradient(135deg, #ffe6f0, #fff5e6);
+        }
+        /* Page 2: Our Story */
+        #page2 .story-text {
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out 0.5s forwards;
+        }
+        /* Page 3: Why I Love You */
+        .image-reasons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin-top: 20px;
+            justify-items: center;
+        }
+        .image-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            min-height: 320px; /* Ensures uniform card heights */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .image-card p {
+            font-size: 1rem;
+            color: #5a4a42;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        /* Page 4: Birthday Wishes */
+        #page4 .wishes-text {
+            font-style: italic;
+            white-space: pre-line;
+            animation: fadeIn 2s ease-in-out;
+        }
+        /* Page 5: Memories */
+        .memories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 900px;
+        }
+        .memory-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 280px;
+            text-align: center;
+        }
+        .memory-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        .caption {
+            display: none;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #8b7d6b;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .memory-item:hover .caption {
+            display: block;
+        }
+        /* Page 6: Final Love Note */
+        #page6 {
+            background: linear-gradient(135deg, #ffe6f0, #fff5e6);
+            overflow-y: auto; /* Allow scrolling if needed, but aim to fit */
+        }
+        .love-note {
+            font-size: 1rem; /* Reduced from 1.5rem for better fit */
+            line-height: 1.4; /* Slightly tighter line spacing */
+            max-width: 700px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .love-note p {
+            margin: 10px 0; /* Reduce margin between paragraphs */
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .image-reasons {
+                grid-template-columns: 1fr; /* Stack on mobile */
+                gap: 15px;
+            }
+            .image-card {
+                width: 90%;
+                max-width: none;
+                min-height: auto; /* Allow natural height on mobile */
+            }
+            .image-card img { height: 150px; }
+            .memories { flex-direction: column; align-items: center; }
+            .memory-item { width: 90%; }
+            .love-note { font-size: 0.9rem; max-width: 90%; } /* Even smaller on mobile */
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Landing / Welcome -->
+    <div id="page1" class="page active">
+        <h1>Happiest Birthday to The Love of my Life🤴🏽</h1>
+        <p class="subtext">This is Made by Me As a Gift Coz mery ko sirf yahi ata hy😁</p>
+        <button onclick="navigateTo(2)">Click Karain Mohteram!</button>
+    </div>
+
+    <!-- Page 2: Our Story -->
+    <div id="page2" class="page">
+        <h1>Our Story</h1>
+        <p class="story-text">Bari simple si story hy hamari to😉 waisy kahan kb insaan kisi ka naseeb bn jata hy pata hi nahi chlta 😊
+            wo insaan jis sy main kabhi soch hi nahi sakti thi aj roz beth kr us sy shadi ki batain krti hon😄 intezar krti hon us din ka
+            jb wo mery ghar ay ga mujhy pory haq sy mery ghar walon sy mangy ga or phir mujhy yahan sy usi haq k sath apny pas ly jay ga 🙂‍↔️
+            soch kr kitna maza ata hy na ap main apki family ano mamo ayyan shiza hm sb ek ghar main🥺 ap kam pr ho ghar ao or agy main or ano 
+            kitchen main hon haye sakooon🤗 chalain ab apky arman jaisy k mainy jaga diya hain agy chlty hain🫣 click karain agy or bhi bohot kuch hy🤭
+        </p>
+        <button onclick="navigateTo(3)">Ain naaaa!</button>
+    </div>
+
+    <!-- Page 3: Why I Love You -->
+    <div id="page3" class="page">
+        <h1>Why I Love You</h1>
+        <div class="image-reasons">
+            <div class="image-card">
+                <img src="image1.jpeg" alt="Your Image 1">
+                <p>Haye apki yh smileeeee uffffff.😘</p>
+            </div>
+            <div class="image-card">
+                <img src="image2.jpeg" alt="Your Image 2">
+                <p>Jano apsy bat kr k to hamara din bn jata hy chahy bt 5 mint hi kion na ho.🙂‍↕️</p>
+            </div>
+            <div class="image-card">
+                <img src="image3.jpeg" alt="Your Image 3">
+                <p>Or most fvrt chez is your dil.😸</p>
+            </div>
+        </div>
+        <button onclick="navigateTo(4)">Abhi or Bhi hyy!</button>
+    </div>
+
+    <!-- Page 4: Birthday Wishes -->
+    <div id="page4" class="page">
+        <h1>My Wishes for You</h1>
+        <p class="wishes-text" id="wishes-text"></p>
+        <button onclick="navigateTo(5)">Kuch khas BS apky liya😘</button>
+    </div>
+
+    <!-- Page 5: Memories / Feelings -->
+    <div id="page5" class="page">
+        <h1>Hamari Pyari Pyari Thori Si Memories</h1>
+        <div class="memories">
+            <div class="memory-item">Jb Ap ghar ay thy itny saal bd<div class="caption">I seriously hated you but sirf apka sochti rahi phir bhi kojiyaaaa🤭</div></div>
+            <div class="memory-item">Apka phir mujhy manana<div class="caption">Main shaid kabhi na ati but main shaid tb bhi krti thi apsy bs bolna nahi chahti thi apny manaya hi aisy k apon reh na paya wo kehty hain na tarap hi aisi hy😹</div></div>
+            <div class="memory-item">Phir hoi love story start<div class="caption">Phir hamara roz roz pora pora din bt krna jaisy ap hr waqt mery sath ho hr jagah best days😽</div></div>
+            <div class="memory-item">Phir ay thory clashes<div class="caption">Phir thory masly howy main shaid tb bohot kamzor thi dr gai or pechy kadam kiya ap phir ay mujhy sambhala or aj hm phir sath hain.😻</div></div>
+            <div class="memory-item">Yh to miss kr hi nahi skti<div class="caption">Bari chumiyan leni ati hain janabbbb apko to hainnnnnn gandiyaaa 😆 ao na ab don pappi apko</div></div>
+        </div>
+        <button onclick="navigateTo(6)">Chalain click karain mazy bd main lijiya ga</button>
+    </div>
+
+    <!-- Page 6: Final Love Note -->
+    <div id="page6" class="page">
+        <h1>A message full of my love for you</h1>
+        <div class="love-note">
+            <p>My Kojy Kalony Mani🤡</p>
+            <p>Thanks to ano ji👸 unhon ny yh tofa paida kiya aj hamain naseeb howa or hamary mazy ho gay😄. Phir apki bari Mani ji tusi na main baon changy lagty ho😚 Mujhy thori bohot bs coding ati thi socha apny mani k liya kuch kiya jay itna bara nahi hy koi khas bhi nahi hy but jo kr skti wo yahi hy bs😳 Yahi kahongi Jaaaaannnnn hain Janab Ap Meri🥰 Khush Rahain bs hamesha hamesha app AMEEN✨ Mery sath ofcourse🙈 Main sari zindagi khushi khushi sakoon sy demagh khaon apko Ameennn😸 Hm dono jaldi jldi ek hon phir main roz apka demagh chaton Ameen🤗 Roz nay tareqy sy apko tang kr sakon or ap majbor ho khudh hi galy dala jo tha itny shok sy😉 Baki yh to ho gai aisi batain BUt "I LOVE YOU YARA BOHOT BOHOT ZAIDA WALA"😘😝 alfaz nahi hain but hamesha sath rehna bs ap or kuch nahi chahiya🥹 Aisy hi hansty muskuraty dekhti rahon main apko bs yahi chahti hon Ameeen🥺 bs chalo bye bye ab mery ko cry a rha😫 Love you too bolna wrna shadi cancel❌ with an "I" jo ap hamesha bhol jaty hain☹️ Chal kojiya bs itna hi k "You live in my heart and its your's forever babes"🤌👩‍❤️‍💋‍👨</p>
+            <p>Happy Birthday.Once Again My Love🫶</p>
+        </div>
+    </div>
+
+    <script>
+        // Navigation function with smooth fade transition
+        function navigateTo(pageNum) {
+            const currentPage = document.querySelector('.page.active');
+            const nextPage = document.getElementById('page' + pageNum);
+            currentPage.classList.remove('active');
+            setTimeout(() => {
+                nextPage.classList.add('active');
+            }, 500); // Match transition time
+        }
+
+        // Typing animation for Page 4
+        const wishesText = `To Mery Pyary Mani JI,
+
+You don’t just exist in my life ,you live quietly in my heart, in every thought, in every calm moment.👀
+With you, I feel understood without having to explain myself, and loved in ways I didn’t know I needed.🙂‍↕️
+You make the world feel softer for me, like I don’t have to be strong all the time anymore.😮‍💨
+Loving you feels safe, honest, and real and that’s something I will never stop being grateful for.🥰
+If my heart ever learned what home feels like, it learned it because of you.🥹`;
+        let index = 0;
+        function typeWriter() {
+            if (index < wishesText.length) {
+                document.getElementById('wishes-text').innerHTML += wishesText.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        // Trigger typing when Page 4 becomes active
+        const observer = new MutationObserver(() => {
+            if (document.getElementById('page4').classList.contains('active')) {
+                document.getElementById('wishes-text').innerHTML = '';
+                index = 0;
+                typeWriter();
+            }
+        });
+        observer.observe(document.getElementById('page4'), { attributes: true, attributeFilter: ['class'] });
+
+        // Confetti on Page 6
+        function triggerConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = ['#ffb6c1', '#ffd700', '#ffe6f0'][Math.floor(Math.random() * 3)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.animation = 'fall 3s linear forwards';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+        const confettiObserver = new MutationObserver(() => {
+            if (document.getElementById('page6').classList.contains('active')) {
+                triggerConfetti();
+            }
+        });
+        confettiObserver.observe(document.getElementById('page6'), { attributes: true, attributeFilter: ['class'] });
+
+        // Add confetti animation
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to { transform: translateY(100vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
