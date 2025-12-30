@@ -16,13 +16,12 @@
             transition: all 0.5s ease;
         }
         .page {
-            display: none;
+            display: none; /* Only this display: none; now—no duplicate */
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -32,6 +31,7 @@
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.5s ease, transform 0.5s ease;
+            overflow-y: auto; /* Allow scrolling if content overflows */
         }
         .page.active {
             display: flex;
@@ -191,8 +191,6 @@
         @media (max-width: 768px) {
             .page {
                 padding: 15px; /* Reduce padding on small screens */
-                height: auto; /* Allow height to adjust */
-                min-height: 100vh; /* Ensure at least full height */
             }
             .image-reasons {
                 grid-template-columns: 1fr; /* Stack on mobile */
@@ -358,4 +356,4 @@ If my heart ever learned what home feels like, it learned it because of you.🥹
                 confetti.style.top = '-10px';
                 confetti.style.animation = 'fall 3s linear forwards';
                 document.body.appendChild(confetti);
-                setTimeout(()
+                setTimeout(() => confetti.remove(), 300
