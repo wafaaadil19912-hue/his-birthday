@@ -22,6 +22,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
+            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -38,30 +39,33 @@
             transform: translateY(0);
         }
         h1 {
-            font-size: 3rem;
+            font-size: clamp(1.5rem, 8vw, 3rem); /* Responsive font size */
             margin-bottom: 10px;
             color: #d2691e;
             animation: fadeIn 1s ease-in-out;
         }
         p, .subtext {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4vw, 1.2rem); /* Responsive font size */
             line-height: 1.6;
             margin: 20px 0;
+            max-width: 90%; /* Ensure text doesn't overflow */
+            word-wrap: break-word; /* Break long words if needed */
         }
         .subtext {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
             color: #8b7d6b;
         }
         button {
             background: linear-gradient(135deg, #ffb6c1, #ffd700);
             border: none;
             padding: 15px 30px;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             color: white;
             border-radius: 50px;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             margin-top: 20px;
+            min-width: 150px; /* Ensure button is not too small */
         }
         button:hover {
             transform: scale(1.05);
@@ -79,11 +83,12 @@
         /* Page 3: Why I Love You */
         .image-reasons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted min width for better fit */
             gap: 20px;
-            max-width: 900px;
+            max-width: 100%; /* Full width on small screens */
             margin-top: 20px;
             justify-items: center;
+            width: 100%;
         }
         .image-card {
             background: rgba(255, 255, 255, 0.9);
@@ -94,10 +99,11 @@
             width: 100%;
             max-width: 280px;
             text-align: center;
-            min-height: 320px; /* Ensures uniform card heights */
+            min-height: 320px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            box-sizing: border-box; /* Include padding in width */
         }
         .image-card img {
             width: 100%;
@@ -107,7 +113,7 @@
             margin-bottom: 15px;
         }
         .image-card p {
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
             color: #5a4a42;
             margin: 0;
             flex-grow: 1;
@@ -121,6 +127,8 @@
             font-style: italic;
             white-space: pre-line;
             animation: fadeIn 2s ease-in-out;
+            max-width: 90%;
+            word-wrap: break-word;
         }
         /* Page 5: Memories */
         .memories {
@@ -128,7 +136,8 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
-            max-width: 900px;
+            max-width: 100%;
+            width: 100%;
         }
         .memory-item {
             background: rgba(255, 255, 255, 0.9);
@@ -137,8 +146,10 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 280px;
+            width: 100%;
+            max-width: 280px;
             text-align: center;
+            box-sizing: border-box;
         }
         .memory-item:hover {
             transform: scale(1.05);
@@ -147,7 +158,7 @@
         .caption {
             display: none;
             margin-top: 10px;
-            font-size: 0.9rem;
+            font-size: clamp(0.8rem, 3vw, 0.9rem);
             color: #8b7d6b;
             animation: fadeIn 0.5s ease-in-out;
         }
@@ -157,38 +168,74 @@
         /* Page 6: Final Love Note */
         #page6 {
             background: linear-gradient(135deg, #ffe6f0, #fff5e6);
-            overflow-y: auto; /* Allow scrolling if needed, but aim to fit */
+            overflow-y: auto; /* Allow scrolling if needed */
         }
         .love-note {
-            font-size: 1rem; /* Reduced from 1.5rem for better fit */
-            line-height: 1.4; /* Slightly tighter line spacing */
-            max-width: 700px;
+            font-size: clamp(0.8rem, 3.5vw, 1rem); /* Responsive font size */
+            line-height: 1.4;
+            max-width: 90%; /* Full width on small screens */
+            width: 100%;
+            text-align: left; /* Left-align for better readability on long text */
             animation: fadeIn 2s ease-in-out;
+            box-sizing: border-box;
         }
         .love-note p {
-            margin: 10px 0; /* Reduce margin between paragraphs */
+            margin: 10px 0;
         }
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        /* Mobile Responsiveness */
+        /* Mobile Responsiveness - Enhanced */
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
+            .page {
+                padding: 15px; /* Reduce padding on small screens */
+                height: auto; /* Allow height to adjust */
+                min-height: 100vh; /* Ensure at least full height */
+            }
             .image-reasons {
                 grid-template-columns: 1fr; /* Stack on mobile */
                 gap: 15px;
             }
             .image-card {
-                width: 90%;
+                width: 100%;
                 max-width: none;
-                min-height: auto; /* Allow natural height on mobile */
+                min-height: auto;
+                padding: 15px; /* Reduce padding */
             }
-            .image-card img { height: 150px; }
-            .memories { flex-direction: column; align-items: center; }
-            .memory-item { width: 90%; }
-            .love-note { font-size: 0.9rem; max-width: 90%; } /* Even smaller on mobile */
+            .image-card img {
+                height: 150px;
+            }
+            .memories {
+                flex-direction: column;
+                align-items: center;
+            }
+            .memory-item {
+                width: 100%;
+                max-width: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .page {
+                padding: 10px;
+            }
+            h1 {
+                margin-bottom: 5px;
+            }
+            p, .subtext {
+                margin: 15px 0;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            .image-card img {
+                height: 120px;
+            }
+            .love-note {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -311,24 +358,4 @@ If my heart ever learned what home feels like, it learned it because of you.🥹
                 confetti.style.top = '-10px';
                 confetti.style.animation = 'fall 3s linear forwards';
                 document.body.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 3000);
-            }
-        }
-        const confettiObserver = new MutationObserver(() => {
-            if (document.getElementById('page6').classList.contains('active')) {
-                triggerConfetti();
-            }
-        });
-        confettiObserver.observe(document.getElementById('page6'), { attributes: true, attributeFilter: ['class'] });
-
-        // Add confetti animation
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes fall {
-                to { transform: translateY(100vh) rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
-</body>
-</html>
+                setTimeout(()
